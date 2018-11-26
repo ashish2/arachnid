@@ -17,15 +17,18 @@ class ArachQueue(Queue):
     def enq(self, url):
         """Inserts the url at 0 index, in accordance with the FIFO method"""
         print("ENQ: ", url)
-        return self.put(url)
+        ret = self.put(url)
+        return ret
 
     def deq(self):
         """Returns the url which got inserted earliest, in accordance with the FIFO method"""
-        print("DEQ")
         if self.empty():
             #raise Exception
-            return ("Empty Queue!")
-        return self.get()
+            #return ("Empty Queue!")
+            return None
+        ret = self.get()
+        print("DEQ: ", ret)
+        return ret
 
 
 #q = ArachQueue()

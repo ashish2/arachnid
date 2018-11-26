@@ -7,8 +7,6 @@ class BaseCrawler(object):
     def __init__(self, urls):
         """
         Initiation params for the crawler
-        @params: 
-
         """
         #self.id = id
         # Assign urls
@@ -36,6 +34,7 @@ class BaseCrawler(object):
     def initiate_threads(self):
         for i in range(self.config.get("threads").get("number") ):
             worker = Thread(target=self.crawl, args=[i])
+            worker.setName("Thread-"+str(i))
             worker.start()
             self.all_threads.append(worker)
         return True

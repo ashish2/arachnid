@@ -45,7 +45,6 @@ class SiteCrawler(BaseCrawler):
         #self.finish_threads()
 
     def call(self):
-        li = ["a", "b", "c"]
         for i in li:
             self.q.put(i)
 
@@ -53,17 +52,24 @@ class SiteCrawler(BaseCrawler):
         print("wID: ", wId)
         while not self.q.empty():
             url = self.q.deq()
-            self.http(url)
+            if url is not None:
+                self.http(url, wId)
+        return
 
-    def http(self, url):
-        print("Inside HTTP")
+    def http(self, url, wId):
+
+        print("Inside HTTP: ", " wID: ", wId)
         res = requests.get(url)
         print("res: ", res)
         print("res.text: ", res.text)
         bs = BeautifulSoup(res.text, 'html.parser')
         links = bs.find_all('a', href=True)
+
         for link in links:
-            self.q.enq(url)
+            self.q.enq(link)
+
+        print("HTTP Qqsize: ", self.q.qsize() )
+        return
 
 
     def crawlNow(self):
@@ -90,8 +96,11 @@ class SiteCrawler(BaseCrawler):
 
 
 #url = ["https://www.google.co.in"]
-url = ["https://www.google.co.in"]
+url = ["http://quotes.toscrape.com/"]
+#["https://www.google.co.in"]
 s = SiteCrawler(url)
+
+
 #s.crawl()
 s.init_all()
 #s.q.join_thread()
