@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 from basecrawler import BaseCrawler
-#from ..arachthread 
 import arachqueue 
 
 class Toscrape(BaseCrawler):
@@ -9,7 +8,6 @@ class Toscrape(BaseCrawler):
     def __init__(self, urls):
         self.urls = urls
         super().__init__(urls)
-        print("self.q ", self.q)
 
     def loop(self):
         # Spawn 4 thread here & each thread will take url from queue 
@@ -49,7 +47,6 @@ class Toscrape(BaseCrawler):
             self.q.put(i)
 
     def crawl(self, wId):
-        print("wID: ", wId)
         while not self.q.empty():
             url = self.q.deq()
             if url is not None:
@@ -57,18 +54,12 @@ class Toscrape(BaseCrawler):
         return
 
     def http(self, url, wId):
-
-        print("Inside HTTP: ", " wID: ", wId)
         res = requests.get(url)
-        print("res: ", res)
-        print("res.text: ", res.text)
         bs = BeautifulSoup(res.text, 'html.parser')
         links = bs.find_all('a', href=True)
-
         for link in links:
             self.q.enq(link)
 
-        print("HTTP Qqsize: ", self.q.qsize() )
         return
 
 
@@ -77,7 +68,6 @@ class Toscrape(BaseCrawler):
         try:
             logging.info("GET " + url)
             res = requests.get(url)
-            print("RES ", res)
             bs = BeautifulSoup(res.text)
             # Search for other links & insert into Q
             result[index] = data
@@ -89,15 +79,9 @@ class Toscrape(BaseCrawler):
 
     def c(self):
         for i in self.urls:
-            print("u ", self.q.bues() )
             self.q.put(i)
 
-        print(self)
 
-
-#url = ["https://www.google.co.in"]
-#["https://www.google.co.in"]
-#s.crawl()
 
 
 #===HERE

@@ -22,8 +22,6 @@ class BaseCrawler(object):
                             "number": 2
                         }
                 }
-        #self.initiate_queue()
-        #self.initiate_threads()
 
 
     def initiate_queue(self):
