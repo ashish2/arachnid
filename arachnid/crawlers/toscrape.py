@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from basecrawler import BaseCrawler
 import arachqueue 
+from urllib.parse import urljoin, urlparse
 
 class Toscrape(BaseCrawler):
 
@@ -58,10 +59,18 @@ class Toscrape(BaseCrawler):
         bs = BeautifulSoup(res.text, 'html.parser')
         links = bs.find_all('a', href=True)
         for link in links:
+            link = self.url_clean(link)
             self.q.enq(link)
 
         return
 
+    def url_clean(self, url):
+        full_url = url
+        if url.startswith('/') or url.startswith(self.root_url):
+            root_url = '{}://{}'.format(urlparse(u).scheme, urlparse(u).netloc)
+            full_url = urljoin(root_url, url)
+
+        return full_url
 
     def crawlNow(self):
         url = self.urls

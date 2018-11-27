@@ -14,6 +14,7 @@ class ArachQueue(Queue):
 
     def enq(self, url):
         """Inserts the url at 0 index, in accordance with the FIFO method"""
+        print("ENQ: " , url)
         ret = self.put(url)
         return ret
 
