@@ -1,10 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 from basecrawler import BaseCrawler
-import arachthread 
-#import arachqueue 
+#from ..arachthread 
+import arachqueue 
 
-class SiteCrawler(BaseCrawler):
+class Toscrape(BaseCrawler):
 
     def __init__(self, urls):
         self.urls = urls
@@ -96,41 +96,15 @@ class SiteCrawler(BaseCrawler):
 
 
 #url = ["https://www.google.co.in"]
-url = ["http://quotes.toscrape.com/"]
 #["https://www.google.co.in"]
-s = SiteCrawler(url)
-
-
 #s.crawl()
+
+
+#===HERE
+url = ["http://quotes.toscrape.com/"]
+s = Toscrape(url)
 s.init_all()
-#s.q.join_thread()
 for i in s.all_threads:
     i.join()
-#print( s.config )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
