@@ -56,6 +56,8 @@ class Toscrape(BaseCrawler):
     def http(self, url, wId):
         res = requests.get(url)
         bs = BeautifulSoup(res.text, 'html.parser')
+        print("bs")
+        print(bs)
         links = bs.find_all('a', href=True)
         for link in links:
             self.q.enq(link)
